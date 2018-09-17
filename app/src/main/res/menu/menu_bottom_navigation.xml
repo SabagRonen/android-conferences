@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/upcomingButton"
+        android:title="@string/upcoming"
+        android:icon="@drawable/ic_launcher_background"/>
+    <item
+        android:id="@+id/pastButton"
+        android:title="@string/past"
+        android:icon="@drawable/ic_launcher_background"/>
+</menu>
