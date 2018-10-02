@@ -12,9 +12,9 @@ class LaunchTaskRunner : TaskRunner, CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO + job
 
-    private lateinit var job: Job
+    private val job = Job()
     override fun run(block: suspend () -> Unit) {
-        job = launch {
+        launch {
             block()
         }
     }
