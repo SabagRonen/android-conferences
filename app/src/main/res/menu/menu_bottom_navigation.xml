@@ -8,4 +8,8 @@
         android:id="@+id/pastButton"
         android:title="@string/past"
         android:icon="@drawable/ic_launcher_background"/>
+    <item
+        android:id="@+id/moreButton"
+        android:icon="@drawable/ic_more_horiz_white_24dp"
+        android:title="@string/more" />
 </menu>

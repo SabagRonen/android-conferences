@@ -37,10 +37,10 @@ class ConferencesListFragment : Fragment() {
             conferencesAdapter.notifyDataSetChanged()
         }
         bottomNav.setOnNavigationItemSelectedListener {
-            if (it.itemId == R.id.pastButton) {
-                presenter.pastButtonClicked()
-            } else {
-                presenter.upcomingButtonClicked()
+            when (it.itemId) {
+                R.id.pastButton -> presenter.pastButtonClicked()
+                R.id.upcomingButton -> presenter.upcomingButtonClicked()
+                R.id.moreButton -> presenter.moreButtonClicked()
             }
             true
         }

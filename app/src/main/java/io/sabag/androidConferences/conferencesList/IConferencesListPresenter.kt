@@ -8,4 +8,5 @@ interface IConferencesListPresenter {
     fun observeConferencesState(lifecycle: Lifecycle, observer: (List<ConferenceState>) -> Unit)
     fun pastButtonClicked()
     fun upcomingButtonClicked()
+    fun moreButtonClicked()
 }

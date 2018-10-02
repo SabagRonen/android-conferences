@@ -88,6 +88,13 @@ class ConferencesListViewTests {
         verify(mockPresenter).upcomingButtonClicked()
     }
 
+    @Test
+    fun whenClickOnMoreButtonShouldDelegateToPresenter() {
+        onView(withId(R.id.moreButton)).perform(click())
+
+        verify(mockPresenter).moreButtonClicked()
+    }
+
     private fun getConferenceStateListObserver() : (List<ConferenceState>) -> Unit {
         val captor = lambdaArgumentCaptor<(List<ConferenceState>) -> Unit>()
         verify(mockPresenter).observeConferencesState(anyNonNull(), cap(captor))

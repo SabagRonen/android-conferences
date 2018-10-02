@@ -39,9 +39,13 @@ class ConferencesListPresenter(
 
     }
 
+    override fun moreButtonClicked() {
+
+    }
+
     private fun getDates(conferenceDetails: ConferenceDetails) =
             conferenceDetails.endDate?.let {
                 "${timeAndDateUtils.getFormattedDate(conferenceDetails.startDate)} - " +
-                        "${timeAndDateUtils.getFormattedDate(it)}"
+                        timeAndDateUtils.getFormattedDate(it)
         } ?: timeAndDateUtils.getFormattedDate(conferenceDetails.startDate)
 }
