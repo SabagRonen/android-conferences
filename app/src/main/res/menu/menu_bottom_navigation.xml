@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/upcomingButton"
         android:title="@string/upcoming"
-        android:icon="@drawable/ic_launcher_background"/>
+        android:icon="@drawable/ic_upcoming"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/pastButton"
         android:title="@string/past"
-        android:icon="@drawable/ic_launcher_background"/>
+        android:icon="@drawable/ic_past"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/moreButton"
         android:icon="@drawable/ic_more_horiz_white_24dp"
-        android:title="@string/more" />
+        android:title="@string/more"
+        app:showAsAction="ifRoom" />
 </menu>
