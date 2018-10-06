@@ -27,7 +27,7 @@ class ConferencesListViewTests {
     private val conferenceState = ConferenceState(
             title = "",
             location = "",
-            dates = ""
+            info = ""
     )
 
     @Before
@@ -67,7 +67,7 @@ class ConferencesListViewTests {
     fun whenObserveConferenceStateShouldShowTheStartDateAsStartDate() {
         // act
         changeUi{
-            conferenceStateListObserver(listOf(conferenceState.copy(dates = "03.09.2018 - 04.09.2018")))
+            conferenceStateListObserver(listOf(conferenceState.copy(info = "03.09.2018 - 04.09.2018")))
         }
 
         // verify

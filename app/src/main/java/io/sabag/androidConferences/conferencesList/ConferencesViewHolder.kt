@@ -32,6 +32,6 @@ class ConferencesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     fun bind(conferenceState: ConferenceState) {
         title.text = conferenceState.title
         subtitle.text = conferenceState.location
-        info.text = conferenceState.dates
+        info.text = conferenceState.info
     }
 }
