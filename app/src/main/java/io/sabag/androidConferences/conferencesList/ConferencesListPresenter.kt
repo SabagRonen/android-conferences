@@ -24,7 +24,7 @@ class ConferencesListPresenter(
                 ConferenceState(
                         title = it.name,
                         location = it.location,
-                        dates = getDates(it)
+                        info = getDates(it)
                 )
             }
             conferencesStateLiveData.postValue(list)
@@ -43,9 +43,6 @@ class ConferencesListPresenter(
 
     }
 
-    private fun getDates(conferenceDetails: ConferenceDetails) =
-            conferenceDetails.endDate?.let {
-                "${timeAndDateUtils.getFormattedDate(conferenceDetails.startDate)} - " +
-                        timeAndDateUtils.getFormattedDate(it)
-        } ?: timeAndDateUtils.getFormattedDate(conferenceDetails.startDate)
+    private fun getDates(conferenceDetailsData: ConferenceDetails) =
+            timeAndDateUtils.getFormattedDate(conferenceDetailsData.startDate)
 }

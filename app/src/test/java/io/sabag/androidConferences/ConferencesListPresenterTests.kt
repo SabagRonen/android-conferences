@@ -49,7 +49,7 @@ class ConferencesListPresenterTests {
     private val state = ConferenceState(
             title = "",
             location = "",
-            dates = "2018-09-03"
+            info = "2018-09-03"
     )
 
     @Before
@@ -92,7 +92,7 @@ class ConferencesListPresenterTests {
         conferenceDetailsListObserver(listOf(details.copy(startDate = START_DATE, endDate = null)))
 
         // verify
-        verify(conferenceStateListListener).invoke(listOf(state.copy(dates = "2018-09-03")))
+        verify(conferenceStateListListener).invoke(listOf(state.copy(info = "2018-09-03")))
     }
 
     @Test
@@ -101,7 +101,7 @@ class ConferencesListPresenterTests {
         conferenceDetailsListObserver(listOf(details.copy(startDate = START_DATE, endDate = END_DATE)))
 
         // verify
-        verify(conferenceStateListListener).invoke(listOf(state.copy(dates = "2018-09-03 - 2018-09-04")))
+        verify(conferenceStateListListener).invoke(listOf(state.copy(info = "2018-09-03")))
     }
 
     private fun getConferenceStateListListener(): (List<ConferenceState>) -> Unit {
