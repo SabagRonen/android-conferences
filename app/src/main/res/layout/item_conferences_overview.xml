@@ -20,7 +20,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/cardview_dark_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="cool conference" />
@@ -32,7 +31,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="@color/cardview_dark_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title"
             tools:text="Mountain VIew, CA" />
@@ -44,12 +42,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="16dp"
+            android:fontFamily="@font/assistant_semibold"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/primaryDarkColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subtitle"
-            tools:text="04.09.2018 - 05.09.2018" />
+            tools:text="04.09.2018" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
