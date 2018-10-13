@@ -2,5 +2,6 @@
     <string name="app_name">android-conferences</string>
     <string name="upcoming">Upcoming</string>
     <string name="past">Past</string>
-    <string name="more">more</string>
+    <string name="more">More</string>
+    <string name="status">status</string>
 </resources>

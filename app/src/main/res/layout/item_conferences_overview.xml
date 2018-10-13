@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
     android:layout_marginTop="16dp"
-    android:layout_marginEnd="16dp"
-    android:background="@drawable/conference_item_background">
+    android:layout_marginEnd="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,7 +15,7 @@
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="23dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -40,15 +39,58 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/assistant_semibold"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/primaryDarkColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subtitle"
-            tools:text="04.09.2018" />
+            app:layout_constraintTop_toBottomOf="@+id/extraInfo"
+            app:layout_goneMarginTop="32dp"
+            tools:text="2018-09-04" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/extraInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="visible"
+            app:constraint_referenced_ids="extraText,extraStatus"
+            app:layout_constraintBottom_toTopOf="@id/info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subtitle" />
+
+        <TextView
+            android:id="@+id/extraText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/item_extra_info_background"
+            android:elevation="5dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textColor="#818181"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/extraStatus"
+            app:layout_constraintStart_toEndOf="@+id/extraStatus"
+            app:layout_constraintTop_toTopOf="@+id/extraStatus"
+            tools:text="cfp"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/extraStatus"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/extraInfo"
+            app:layout_constraintTop_toTopOf="@+id/extraInfo"
+            app:srcCompat="@drawable/status_in_progress" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

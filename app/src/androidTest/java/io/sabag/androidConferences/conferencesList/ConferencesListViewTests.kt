@@ -4,10 +4,11 @@ import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.runner.AndroidJUnit4
 import io.sabag.androidConferences.*
+import io.sabag.androidConferences.matchers.BackgroundResourceMatcher.Companion.withBackgroundResource
+import org.hamcrest.Matchers.not
 import org.junit.Before
 
 import org.junit.Rule
@@ -27,7 +28,12 @@ class ConferencesListViewTests {
     private val conferenceState = ConferenceState(
             title = "",
             location = "",
-            info = ""
+            info = "",
+            extraInfo = null
+    )
+    private val extraInfo = ExtraInfo(
+            text = "tests are cool",
+            icon = null
     )
 
     @Before
@@ -72,6 +78,61 @@ class ConferencesListViewTests {
 
         // verify
         onView(withId(R.id.info)).check(matches(withText("03.09.2018 - 04.09.2018")))
+    }
+
+    @Test
+    fun whenObserveConferenceStateWithExtraInfoShouldShowExtraTextView() {
+        // act
+        changeUi{
+            conferenceStateListObserver(listOf(conferenceState.copy(extraInfo = extraInfo)))
+        }
+
+        // verify
+        onView(withId(R.id.extraText)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenObserveConferenceStateWithoutExtraInfoShouldHideExtraInfoView() {
+        // prepare
+        changeUi{
+            conferenceStateListObserver(listOf(conferenceState.copy(extraInfo = extraInfo)))
+        }
+
+        // act
+        changeUi{
+            conferenceStateListObserver(listOf(conferenceState.copy(extraInfo = null)))
+        }
+
+        // verify
+        onView(withId(R.id.extraText)).check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun whenObserveConferenceStateWithExtraInfoShouldShowExtraInfoText() {
+        // prepare
+        val info = extraInfo.copy(text = "tests are cool")
+
+        // act
+        changeUi{
+            conferenceStateListObserver(listOf(conferenceState.copy(extraInfo = info)))
+        }
+
+        // verify
+        onView(withId(R.id.extraText)).check(matches(withText("tests are cool")))
+    }
+
+    @Test
+    fun whenObserveConferenceStateWithExtraInfoWithIconShouldShowExtraInfoIcon() {
+        // prepare
+        val info = extraInfo.copy(icon = R.drawable.status_ended)
+
+        // act
+        changeUi{
+            conferenceStateListObserver(listOf(conferenceState.copy(extraInfo = info)))
+        }
+
+        // verify
+        onView(withId(R.id.extraStatus)).check(matches(withBackgroundResource(R.drawable.status_ended)))
     }
 
     @Test
