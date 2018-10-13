@@ -15,6 +15,7 @@ class ConferencesListInterActor(
         useCase.networkClient = networkClient
         useCase.storageClient = storageClient
         useCase.taskRunner = taskRunner
+        useCase.timeAndDateUtils = timeAndDateUtils
         val dataSource = useCase.handle()
         dataSource.notifyOnChange {
             conferenceDetailsList ->
