@@ -107,6 +107,54 @@ class ConferencesListPresenterTests {
         verify(conferenceStateListListener).invoke(listOf(state.copy(info = "2018-09-03")))
     }
 
+    @Test
+    fun whenObserverConferenceDetailsWithCfpStatusNaShouldSendNullExtraInfo() {
+        // act
+        conferenceDetailsListObserver(listOf(details.copy(cfpStatus = CfpStatus.CFP_STATUS_NA)))
+
+        // verify
+        verify(conferenceStateListListener).invoke(listOf(state.copy(extraInfo = null)))
+    }
+
+    @Test
+    fun whenObserverConferenceDetailsWithCfpStatusNotStartedShouldSendExtraInfoWithNotStartedDrawable() {
+        // act
+        conferenceDetailsListObserver(listOf(details.copy(cfpStatus = CfpStatus.CFP_STATUS_NOT_STARTED)))
+
+        // verify
+        verify(conferenceStateListListener).invoke(
+                listOf(
+                        state.copy(extraInfo = ExtraInfo("cfp", R.drawable.status_not_started))
+                )
+        )
+    }
+
+    @Test
+    fun whenObserverConferenceDetailsWithCfpStatusInProgressShouldSendExtraInfoWithInProgressDrawable() {
+        // act
+        conferenceDetailsListObserver(listOf(details.copy(cfpStatus = CfpStatus.CFP_STATUS_IN_PROGRESS)))
+
+        // verify
+        verify(conferenceStateListListener).invoke(
+                listOf(
+                        state.copy(extraInfo = ExtraInfo("cfp", R.drawable.status_in_progress))
+                )
+        )
+    }
+
+    @Test
+    fun whenObserverConferenceDetailsWithCfpStatusEndedShouldSendExtraInfoWithEndedDrawable() {
+        // act
+        conferenceDetailsListObserver(listOf(details.copy(cfpStatus = CfpStatus.CFP_STATUS_ENDED)))
+
+        // verify
+        verify(conferenceStateListListener).invoke(
+                listOf(
+                        state.copy(extraInfo = ExtraInfo("cfp", R.drawable.status_ended))
+                )
+        )
+    }
+
     private fun getConferenceStateListListener(): (List<ConferenceState>) -> Unit {
         val listener = lambdaMock<(List<ConferenceState>) -> Unit>()
         presenter.observeConferencesState(lifecycle, listener)
