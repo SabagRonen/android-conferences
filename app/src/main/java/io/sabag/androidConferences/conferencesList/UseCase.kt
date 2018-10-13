@@ -37,7 +37,9 @@ class UseCase {
                             name = details.name,
                             location = details.location,
                             startDate = details.startDate,
-                            endDate = details.endDate
+                            endDate = details.endDate,
+                            startCfp = details.startCfp,
+                            endCfp = details.endCfp
                     )
                     storageClient.addConferenceDetails(conferenceDetails)
                     dataSource.setValue(storageClient.getConferencesDetailsList().toConferenceDetailsData())

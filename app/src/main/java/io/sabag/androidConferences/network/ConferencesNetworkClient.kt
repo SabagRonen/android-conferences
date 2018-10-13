@@ -54,6 +54,8 @@ class ConferencesNetworkClient(baseUrl: String = BASE_URL) : IConferencesNetwork
             name = name ?: "",
             location = location ?: "",
             startDate = dateStart ?: Date(0),
-            endDate = dateEnd
+            endDate = dateEnd,
+            startCfp = cfpStart,
+            endCfp = cfpEnd
     )
 }

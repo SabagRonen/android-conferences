@@ -28,7 +28,9 @@ class RoomConferencesStorageClient(
                     name = this.name,
                     location = this.location,
                     startDate = this.startDate,
-                    endDate = this.endDate
+                    endDate = this.endDate,
+                    startCfp = this.cfpStart,
+                    endCfp = this.cfpEnd
             )
 
     private fun ConferenceDetails.toRoomConferenceDetails() =
@@ -37,6 +39,8 @@ class RoomConferencesStorageClient(
                     name = this.name,
                     location = this.location,
                     startDate = this.startDate,
-                    endDate = this.endDate
+                    endDate = this.endDate,
+                    cfpStart = this.startCfp,
+                    cfpEnd = this.endCfp
             )
 }
