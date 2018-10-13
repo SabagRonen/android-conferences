@@ -48,7 +48,7 @@ class ConferencesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
         info.text = conferenceState.info
         if (conferenceState.extraInfo != null) {
             extraInfo.visibility = View.VISIBLE
-            extraText.text = conferenceState.extraInfo.text
+            extraText.setText(conferenceState.extraInfo.text)
             conferenceState.extraInfo.icon?.let { icon ->
                 extraStatus.setImageResource(icon)
             }

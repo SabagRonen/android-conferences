@@ -32,7 +32,7 @@ class ConferencesListViewTests {
             extraInfo = null
     )
     private val extraInfo = ExtraInfo(
-            text = "tests are cool",
+            text = R.string.cfp,
             icon = null
     )
 
@@ -110,7 +110,7 @@ class ConferencesListViewTests {
     @Test
     fun whenObserveConferenceStateWithExtraInfoShouldShowExtraInfoText() {
         // prepare
-        val info = extraInfo.copy(text = "tests are cool")
+        val info = extraInfo.copy(text = R.string.cfp)
 
         // act
         changeUi{
@@ -118,7 +118,7 @@ class ConferencesListViewTests {
         }
 
         // verify
-        onView(withId(R.id.extraText)).check(matches(withText("tests are cool")))
+        onView(withId(R.id.extraText)).check(matches(withText("CFP")))
     }
 
     @Test

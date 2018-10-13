@@ -23,9 +23,9 @@ class ConferencesListPresenter(
         interActor.observeConferences{ conferencesDetailsList ->
             val list = conferencesDetailsList.map {
                 val extraInfo = when (it.cfpStatus) {
-                    CfpStatus.CFP_STATUS_NOT_STARTED -> ExtraInfo("cfp", R.drawable.status_not_started)
-                    CfpStatus.CFP_STATUS_IN_PROGRESS -> ExtraInfo("cfp", R.drawable.status_in_progress)
-                    CfpStatus.CFP_STATUS_ENDED -> ExtraInfo("cfp", R.drawable.status_ended)
+                    CfpStatus.CFP_STATUS_NOT_STARTED -> ExtraInfo(R.string.cfp, R.drawable.status_not_started)
+                    CfpStatus.CFP_STATUS_IN_PROGRESS -> ExtraInfo(R.string.cfp, R.drawable.status_in_progress)
+                    CfpStatus.CFP_STATUS_ENDED -> ExtraInfo(R.string.cfp, R.drawable.status_ended)
                     CfpStatus.CFP_STATUS_NA -> null
                 }
                 ConferenceState(

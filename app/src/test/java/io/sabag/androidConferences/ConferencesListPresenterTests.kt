@@ -124,7 +124,7 @@ class ConferencesListPresenterTests {
         // verify
         verify(conferenceStateListListener).invoke(
                 listOf(
-                        state.copy(extraInfo = ExtraInfo("cfp", R.drawable.status_not_started))
+                        state.copy(extraInfo = ExtraInfo(R.string.cfp, R.drawable.status_not_started))
                 )
         )
     }
@@ -137,7 +137,7 @@ class ConferencesListPresenterTests {
         // verify
         verify(conferenceStateListListener).invoke(
                 listOf(
-                        state.copy(extraInfo = ExtraInfo("cfp", R.drawable.status_in_progress))
+                        state.copy(extraInfo = ExtraInfo(R.string.cfp, R.drawable.status_in_progress))
                 )
         )
     }
@@ -150,7 +150,7 @@ class ConferencesListPresenterTests {
         // verify
         verify(conferenceStateListListener).invoke(
                 listOf(
-                        state.copy(extraInfo = ExtraInfo("cfp", R.drawable.status_ended))
+                        state.copy(extraInfo = ExtraInfo(R.string.cfp, R.drawable.status_ended))
                 )
         )
     }
