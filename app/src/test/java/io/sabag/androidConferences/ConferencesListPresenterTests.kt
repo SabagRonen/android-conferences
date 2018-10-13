@@ -4,6 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
+import io.sabag.androidConferences.conferencesList.CfpStatus
+import io.sabag.androidConferences.conferencesList.ConferenceDetailsData
 import io.sabag.androidConferences.conferencesList.ConferencesListPresenter
 import io.sabag.androidConferences.conferencesList.IConferencesListInterActor
 import io.sabag.androidConferences.pluginInterfaces.ITimeAndDateUtils
@@ -24,7 +26,7 @@ class ConferencesListPresenterTests {
     private lateinit var interActor: IConferencesListInterActor
     private lateinit var presenter: ConferencesListPresenter
     private lateinit var timeAndDateUtils: ITimeAndDateUtils
-    private lateinit var conferenceDetailsListObserver: (List<ConferenceDetails>) -> Unit
+    private lateinit var conferenceDetailsListObserver: (List<ConferenceDetailsData>) -> Unit
     private lateinit var conferenceStateListListener: (List<ConferenceState>) -> Unit
 
     companion object {
@@ -38,12 +40,13 @@ class ConferencesListPresenterTests {
         lifecycle
     }
 
-    private val details = ConferenceDetails(
+    private val details = ConferenceDetailsData(
             id = "",
             name = "",
             location = "",
             startDate = START_DATE,
-            endDate = null
+            endDate = null,
+            cfpStatus = CfpStatus.CFP_STATUS_NA
     )
 
     private val state = ConferenceState(
@@ -110,8 +113,8 @@ class ConferencesListPresenterTests {
         return listener
     }
 
-    private fun getConferencesDetailsObserver(): (List<ConferenceDetails>) -> Unit {
-        val captor = lambdaArgumentCaptor<(List<ConferenceDetails>) -> Unit>()
+    private fun getConferencesDetailsObserver(): (List<ConferenceDetailsData>) -> Unit {
+        val captor = lambdaArgumentCaptor<(List<ConferenceDetailsData>) -> Unit>()
         verify(interActor).observeConferences(cap(captor))
         return captor.value
     }

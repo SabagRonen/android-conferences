@@ -1,5 +1,7 @@
 package io.sabag.androidConferences
 
+import io.sabag.androidConferences.conferencesList.CfpStatus
+import io.sabag.androidConferences.conferencesList.ConferenceDetailsData
 import io.sabag.androidConferences.network.ConferenceDetails as NetworkDetails
 import io.sabag.androidConferences.network.ConferencesNetworkClient
 import io.sabag.androidConferences.network.Content
@@ -65,12 +67,13 @@ class ConferencesListInterActorTests {
             cfpEnd = null,
             cfpSite = null
     )
-    private val conferenceDetails = ConferenceDetails(
+    private val conferenceDetails = ConferenceDetailsData(
             id = "",
             name = "",
             location = "",
             startDate = getDateByDaysOffset(baseDate, 0),
-            endDate = null
+            endDate = null,
+            cfpStatus = CfpStatus.CFP_STATUS_NA
     )
 
     private val testApi = TestApi()
@@ -79,7 +82,7 @@ class ConferencesListInterActorTests {
     private lateinit var baseUrl: String
     private lateinit var interActor: ConferencesListInterActor
     private lateinit var timeAndDateUtils: ITimeAndDateUtils
-    private var response: List<ConferenceDetails>? = null
+    private var response: List<ConferenceDetailsData>? = null
 
     @Before
     fun setupTest() {

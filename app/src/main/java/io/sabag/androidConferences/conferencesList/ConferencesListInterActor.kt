@@ -1,6 +1,5 @@
 package io.sabag.androidConferences.conferencesList
 
-import io.sabag.androidConferences.ConferenceDetails
 import io.sabag.androidConferences.pluginInterfaces.IConferencesNetworkClient
 import io.sabag.androidConferences.pluginInterfaces.IConferencesStorageClient
 import io.sabag.androidConferences.pluginInterfaces.ITimeAndDateUtils
@@ -11,7 +10,7 @@ class ConferencesListInterActor(
         private val timeAndDateUtils: ITimeAndDateUtils,
         private val taskRunner: TaskRunner
 ) : IConferencesListInterActor {
-    override fun observeConferences(observer: (List<ConferenceDetails>) -> Unit) {
+    override fun observeConferences(observer: (List<ConferenceDetailsData>) -> Unit) {
         val useCase = UseCase()
         useCase.networkClient = networkClient
         useCase.storageClient = storageClient

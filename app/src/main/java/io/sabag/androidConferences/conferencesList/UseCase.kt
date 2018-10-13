@@ -11,13 +11,23 @@ class UseCase {
     lateinit var networkClient: IConferencesNetworkClient
     lateinit var storageClient: IConferencesStorageClient
     lateinit var taskRunner: TaskRunner
-    private val dataSource: DataSource<List<ConferenceDetails>> by lazy {
-        DataSource<List<ConferenceDetails>>(taskRunner)
+    private val dataSource: DataSource<List<ConferenceDetailsData>> by lazy {
+        DataSource<List<ConferenceDetailsData>>(taskRunner)
     }
 
-    fun handle() : DataSource<List<ConferenceDetails>> {
+    fun List<ConferenceDetails>.toConferenceDetailsData() = map {
+        ConferenceDetailsData(
+                id = it.id,
+                name = it.name,
+                location = it.location,
+                startDate = it.startDate,
+                endDate = it.endDate,
+                cfpStatus = CfpStatus.CFP_STATUS_NA
+        )
+    }
+    fun handle() : DataSource<List<ConferenceDetailsData>> {
         taskRunner.run {
-            dataSource.setValue(storageClient.getConferencesDetailsList())
+            dataSource.setValue(storageClient.getConferencesDetailsList().toConferenceDetailsData())
             val conferences = networkClient.getConferencesList()
             conferences.forEach { conference ->
                 val details = networkClient.getConferenceDetails(conference.conferenceId)
@@ -30,7 +40,7 @@ class UseCase {
                             endDate = details.endDate
                     )
                     storageClient.addConferenceDetails(conferenceDetails)
-                    dataSource.setValue(storageClient.getConferencesDetailsList())
+                    dataSource.setValue(storageClient.getConferencesDetailsList().toConferenceDetailsData())
                 }
             }
         }

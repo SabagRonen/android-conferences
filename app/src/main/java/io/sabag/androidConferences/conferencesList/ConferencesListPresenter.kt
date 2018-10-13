@@ -2,7 +2,6 @@ package io.sabag.androidConferences.conferencesList
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
-import io.sabag.androidConferences.ConferenceDetails
 import io.sabag.androidConferences.ConferenceState
 import io.sabag.androidConferences.pluginInterfaces.ITimeAndDateUtils
 
@@ -43,6 +42,6 @@ class ConferencesListPresenter(
 
     }
 
-    private fun getDates(conferenceDetailsData: ConferenceDetails) =
+    private fun getDates(conferenceDetailsData: ConferenceDetailsData) =
             timeAndDateUtils.getFormattedDate(conferenceDetailsData.startDate)
 }
