@@ -88,7 +88,9 @@ class ConferencesNetworkClientTests {
                 name = "360|AnDev",
                 location = "Denver, Colorado, USA",
                 startDate = testApi.getDateFromYearMonthDay(2016, Calendar.JULY, 28),
-                endDate = testApi.getDateFromYearMonthDay(2016, Calendar.JULY, 29)
+                endDate = testApi.getDateFromYearMonthDay(2016, Calendar.JULY, 29),
+                startCfp = testApi.getDateFromYearMonthDay(2016, Calendar.JANUARY, 27),
+                endCfp = testApi.getDateFromYearMonthDay(2016, Calendar.APRIL, 29)
         )
         setResponseForPath(
                 "/AndroidStudyGroup/conferences/gh-pages/_conferences/360%7Candev-2016.md",

@@ -7,5 +7,7 @@ data class ConferenceDetails(
         val name: String,
         val location: String,
         val startDate: Date,
-        val endDate: Date?
+        val endDate: Date?,
+        val startCfp: Date?,
+        val endCfp: Date?
 )

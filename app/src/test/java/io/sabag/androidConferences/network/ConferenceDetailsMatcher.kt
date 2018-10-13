@@ -43,6 +43,16 @@ class ConferenceDetailsMatcher(
             return false
         }
 
+        if (item.startCfp != details.startCfp) {
+            cause = "with startCfp [${details.startCfp}]"
+            return false
+        }
+
+        if (item.endCfp != details.endCfp) {
+            cause = "with endCfp [${details.endCfp}]"
+            return false
+        }
+
         return true
     }
 

@@ -25,7 +25,9 @@ data class RoomConferenceDetails(
         @ColumnInfo(name = "name") val name: String,
         @ColumnInfo(name = "location") val location: String,
         @ColumnInfo(name = "start_date")val startDate: Date,
-        @ColumnInfo(name = "end_date") val endDate: Date?
+        @ColumnInfo(name = "end_date") val endDate: Date?,
+        @ColumnInfo(name = "cfp_start") val cfpStart: Date?,
+        @ColumnInfo(name = "cfp_end") val cfpEnd: Date?
 )
 
 @Dao

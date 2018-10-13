@@ -53,7 +53,7 @@ abstract class IConferencesListStorageTests {
         val conferences = storageClient.getConferences()
 
         // verify
-        val expected = listOf(conferencesList1, conferencesList2).flatMap { it }
+        val expected = listOf(conferencesList1, conferencesList2).flatten()
         assertEquals(expected, conferences)
     }
 
@@ -81,7 +81,9 @@ abstract class IConferencesListStorageTests {
                 name = "name1",
                 location = "location",
                 startDate = Date(),
-                endDate = null
+                endDate = null,
+                startCfp = null,
+                endCfp = null
         )
         storageClient.addConferenceDetails(conferenceDetails)
         storageClient.addConferenceDetails(conferenceDetails.copy(name = "name2"))
