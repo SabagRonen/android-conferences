@@ -236,6 +236,171 @@ class ConferencesListInterActorTests {
         assertEquals(expected, response)
     }
 
+    @Test
+    fun whenObservedDetailsWithNullCfpEndShouldReturnDetailsDataWithStatusNa() {
+        // prepare
+        addContentResponse(
+                path = "/_conferences?ref=gh-pages" ,
+                contentList = listOf("path/to/url")
+        )
+        addConferenceDetailsResponse(
+                getDateByDaysOffset(baseDate, 20),
+                getDateByDaysOffset(baseDate, 21),
+                "/path/to/url",
+                cfpStart = getDateByDaysOffset(baseDate, 3),
+                cfpEnd = null
+        )
+
+        // act
+        interActor.observeConferences {
+            response = it
+            taskRunner.cancel()
+        }
+
+        // verify
+        val expected = listOf(
+                conferenceDetails.copy(
+                        id = "path/to/url",
+                        startDate = getDateByDaysOffset(baseDate, 20),
+                        endDate = getDateByDaysOffset(baseDate, 21),
+                        cfpStatus = CfpStatus.CFP_STATUS_NA
+                )
+        )
+        assertEquals(expected, response)
+    }
+
+    @Test
+    fun whenObservedDetailsWithNullCfpStartShouldReturnDetailsDataWithStatusNa() {
+        // prepare
+        addContentResponse(
+                path = "/_conferences?ref=gh-pages" ,
+                contentList = listOf("path/to/url")
+        )
+        addConferenceDetailsResponse(
+                getDateByDaysOffset(baseDate, 20),
+                getDateByDaysOffset(baseDate, 21),
+                "/path/to/url",
+                cfpStart = null,
+                cfpEnd = getDateByDaysOffset(baseDate, 3)
+        )
+
+        // act
+        interActor.observeConferences {
+            response = it
+            taskRunner.cancel()
+        }
+
+        // verify
+        val expected = listOf(
+                conferenceDetails.copy(
+                        id = "path/to/url",
+                        startDate = getDateByDaysOffset(baseDate, 20),
+                        endDate = getDateByDaysOffset(baseDate, 21),
+                        cfpStatus = CfpStatus.CFP_STATUS_NA
+                )
+        )
+        assertEquals(expected, response)
+    }
+
+    @Test
+    fun whenObservedDetailsWithCfpThatNotStartedShouldReturnDetailsDataWithStatusNotStarted() {
+        // prepare
+        addContentResponse(
+                path = "/_conferences?ref=gh-pages" ,
+                contentList = listOf("path/to/url")
+        )
+        addConferenceDetailsResponse(
+                getDateByDaysOffset(baseDate, 20),
+                getDateByDaysOffset(baseDate, 21),
+                "/path/to/url",
+                cfpStart = getDateByDaysOffset(baseDate, 1),
+                cfpEnd = getDateByDaysOffset(baseDate, 3)
+        )
+
+        // act
+        interActor.observeConferences {
+            response = it
+            taskRunner.cancel()
+        }
+
+        // verify
+        val expected = listOf(
+                conferenceDetails.copy(
+                        id = "path/to/url",
+                        startDate = getDateByDaysOffset(baseDate, 20),
+                        endDate = getDateByDaysOffset(baseDate, 21),
+                        cfpStatus = CfpStatus.CFP_STATUS_NOT_STARTED
+                )
+        )
+        assertEquals(expected, response)
+    }
+
+    @Test
+    fun whenObservedDetailsWithCfpThatInProgressShouldReturnDetailsDataWithStatusInProgress() {
+        // prepare
+        addContentResponse(
+                path = "/_conferences?ref=gh-pages" ,
+                contentList = listOf("path/to/url")
+        )
+        addConferenceDetailsResponse(
+                getDateByDaysOffset(baseDate, 20),
+                getDateByDaysOffset(baseDate, 21),
+                "/path/to/url",
+                cfpStart = getDateByDaysOffset(baseDate, -1),
+                cfpEnd = getDateByDaysOffset(baseDate, 3)
+        )
+
+        // act
+        interActor.observeConferences {
+            response = it
+            taskRunner.cancel()
+        }
+
+        // verify
+        val expected = listOf(
+                conferenceDetails.copy(
+                        id = "path/to/url",
+                        startDate = getDateByDaysOffset(baseDate, 20),
+                        endDate = getDateByDaysOffset(baseDate, 21),
+                        cfpStatus = CfpStatus.CFP_STATUS_IN_PROGRESS
+                )
+        )
+        assertEquals(expected, response)
+    }
+
+    @Test
+    fun whenObservedDetailsWithCfpThatEndedShouldReturnDetailsDataWithStatusEnded() {
+        // prepare
+        addContentResponse(
+                path = "/_conferences?ref=gh-pages" ,
+                contentList = listOf("path/to/url")
+        )
+        addConferenceDetailsResponse(
+                getDateByDaysOffset(baseDate, 20),
+                getDateByDaysOffset(baseDate, 21),
+                "/path/to/url",
+                cfpStart = getDateByDaysOffset(baseDate, -3),
+                cfpEnd = getDateByDaysOffset(baseDate, -1)
+        )
+
+        // act
+        interActor.observeConferences {
+            response = it
+            taskRunner.cancel()
+        }
+
+        // verify
+        val expected = listOf(
+                conferenceDetails.copy(
+                        id = "path/to/url",
+                        startDate = getDateByDaysOffset(baseDate, 20),
+                        endDate = getDateByDaysOffset(baseDate, 21),
+                        cfpStatus = CfpStatus.CFP_STATUS_ENDED
+                )
+        )
+        assertEquals(expected, response)
+    }
+
     private fun getDateByDaysOffset(baseDate: Date, offsetInDays: Int): Date {
         val dayInMilliseconds = 1000 * 60 * 60 * 24
         val calendar = Calendar.getInstance()
@@ -263,10 +428,17 @@ class ConferencesListInterActorTests {
         webServer.enqueue(mockResponse)
     }
 
-    private fun addConferenceDetailsResponse(dateStart: Date, dateEnd: Date, path: String) {
+    private fun addConferenceDetailsResponse(
+            dateStart: Date,
+            dateEnd: Date,
+            path: String,
+            cfpStart: Date? = null,
+            cfpEnd: Date? = null) {
         val details = networkDetails.copy(
                 dateStart = dateStart,
-                dateEnd = dateEnd
+                dateEnd = dateEnd,
+                cfpStart = cfpStart,
+                cfpEnd = cfpEnd
         )
         val body = ConferenceDetailsConverter().convertToString(details)
         addResponse(
