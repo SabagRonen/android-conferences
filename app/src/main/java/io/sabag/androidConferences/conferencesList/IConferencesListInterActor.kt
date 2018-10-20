@@ -16,5 +16,5 @@ data class ConferenceDetailsData(
 )
 
 interface IConferencesListInterActor {
-    fun observeConferences(observer: (List<ConferenceDetailsData>) -> Unit)
+    fun observeConferences(shouldObserveFuture: Boolean, observer: (List<ConferenceDetailsData>) -> Unit)
 }

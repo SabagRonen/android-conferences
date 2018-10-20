@@ -68,7 +68,7 @@ class ConferencesListPresenterTests {
     @Test
     fun whenLoadDataCalledShouldCallToInterActorObserveConferences() {
         // verify
-        verify(interActor).observeConferences(anyNonNull())
+        verify(interActor).observeConferences(true, anyNonNull())
     }
 
     @Test
@@ -163,7 +163,7 @@ class ConferencesListPresenterTests {
 
     private fun getConferencesDetailsObserver(): (List<ConferenceDetailsData>) -> Unit {
         val captor = lambdaArgumentCaptor<(List<ConferenceDetailsData>) -> Unit>()
-        verify(interActor).observeConferences(cap(captor))
+        verify(interActor).observeConferences(true, cap(captor))
         return captor.value
     }
 }

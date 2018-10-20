@@ -20,7 +20,7 @@ class ConferencesListPresenter(
     }
 
     override fun loadData() {
-        interActor.observeConferences{ conferencesDetailsList ->
+        interActor.observeConferences(true) { conferencesDetailsList ->
             val list = conferencesDetailsList.map {
                 val extraInfo = when (it.cfpStatus) {
                     CfpStatus.CFP_STATUS_NOT_STARTED -> ExtraInfo(R.string.cfp, R.drawable.status_not_started)

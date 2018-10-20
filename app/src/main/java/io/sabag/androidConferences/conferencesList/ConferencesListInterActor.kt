@@ -10,16 +10,22 @@ class ConferencesListInterActor(
         private val timeAndDateUtils: ITimeAndDateUtils,
         private val taskRunner: TaskRunner
 ) : IConferencesListInterActor {
-    override fun observeConferences(observer: (List<ConferenceDetailsData>) -> Unit) {
+    override fun observeConferences(shouldObserveFuture: Boolean, observer: (List<ConferenceDetailsData>) -> Unit) {
         val useCase = UseCase()
         useCase.networkClient = networkClient
         useCase.storageClient = storageClient
         useCase.taskRunner = taskRunner
         useCase.timeAndDateUtils = timeAndDateUtils
         val dataSource = useCase.handle()
+        val filterCriteria: (ConferenceDetailsData) -> Boolean = { data ->
+            if (shouldObserveFuture)
+                data.startDate.time > timeAndDateUtils.currentTimeInMilliseconds
+            else
+                data.startDate.time <= timeAndDateUtils.currentTimeInMilliseconds
+        }
         dataSource.notifyOnChange {
             conferenceDetailsList ->
-            val list = conferenceDetailsList.filter { it.startDate.time > timeAndDateUtils.currentTimeInMilliseconds }
+            val list = conferenceDetailsList.filter(filterCriteria)
             observer(list.sortedBy { it.startDate.time })
         }
     }

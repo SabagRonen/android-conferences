@@ -14,36 +14,11 @@ import org.junit.Rule
 import org.junit.Test
 import java.util.*
 import io.sabag.androidConferences.conferencesList.ConferencesListInterActor
-import io.sabag.androidConferences.conferencesList.TaskRunner
 import io.sabag.androidConferences.network.ConferenceDetailsConverter
 import io.sabag.androidConferences.pluginInterfaces.IConferencesNetworkClient
 import io.sabag.androidConferences.pluginInterfaces.IConferencesStorageClient
 import io.sabag.androidConferences.pluginInterfaces.ITimeAndDateUtils
 import io.sabag.androidConferences.storage.FakeConferencesStorageClient
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
-
-class TestTaskRunner : TaskRunner, CoroutineScope {
-    override val coroutineContext: CoroutineContext
-        get() = job
-
-    private lateinit var job: Job
-
-    override fun run(block: suspend () -> Unit) {
-        runBlocking {
-            job = launch {
-                block()
-            }
-        }
-    }
-
-    override fun cancel() {
-        if (job.isActive) {
-            job.cancel()
-        }
-    }
-
-}
 
 class ConferencesListInterActorTests {
 
@@ -101,8 +76,8 @@ class ConferencesListInterActorTests {
     }
 
     @Test
-    fun whenConferencesListIsEmptyShouldSendEmpyDetailsList() {
-        interActor.observeConferences {
+    fun whenConferencesListIsEmptyShouldSendEmptyDetailsList() {
+        interActor.observeConferences(true) {
             response = it
             taskRunner.cancel()
         }
@@ -124,7 +99,7 @@ class ConferencesListInterActorTests {
         )
 
         // act
-        interActor.observeConferences {
+        interActor.observeConferences(true) {
             response = it
             taskRunner.cancel()
         }
@@ -141,7 +116,7 @@ class ConferencesListInterActorTests {
     }
 
     @Test
-    fun whenObserveConferencesAfterAlreadyObservedAndNetworkReturnEmptyListShouldReturnPreviousList() {
+    fun whenObserveFutureConferencesAfterAlreadyObservedAndNetworkReturnEmptyListShouldReturnPreviousList() {
         // prepare
         addContentResponse(
                 path = "/_conferences?ref=gh-pages" ,
@@ -152,12 +127,12 @@ class ConferencesListInterActorTests {
                 getDateByDaysOffset(baseDate, 3),
                 "/path/to/url"
         )
-        interActor.observeConferences {
+        interActor.observeConferences(true) {
             taskRunner.cancel()
         }
 
         // act
-        interActor.observeConferences {
+        interActor.observeConferences(true) {
             response = it
             taskRunner.cancel()
         }
@@ -174,7 +149,7 @@ class ConferencesListInterActorTests {
     }
 
     @Test
-    fun whenObserveConferencesShouldNotReturnPastConferences() {
+    fun whenObserveFutureConferencesShouldNotReturnPastConferences() {
         // prepare
         addContentResponse(
                 path = "/_conferences?ref=gh-pages" ,
@@ -187,7 +162,7 @@ class ConferencesListInterActorTests {
         )
 
         // act
-        interActor.observeConferences {
+        interActor.observeConferences(true) {
             response = it
             taskRunner.cancel()
         }
@@ -197,7 +172,7 @@ class ConferencesListInterActorTests {
     }
 
     @Test
-    fun whenObserveOutOfOrderConferencesShouldGetThemInOrder() {
+    fun whenObserveFutureOutOfOrderConferencesShouldGetThemInOrder() {
         // prepare
         addContentResponse(
                 path = "/_conferences?ref=gh-pages" ,
@@ -215,7 +190,7 @@ class ConferencesListInterActorTests {
         )
 
         // act
-        interActor.observeConferences {
+        interActor.observeConferences(true) {
             response = it
             taskRunner.cancel()
         }
@@ -237,7 +212,7 @@ class ConferencesListInterActorTests {
     }
 
     @Test
-    fun whenObservedDetailsWithNullCfpEndShouldReturnDetailsDataWithStatusNa() {
+    fun whenObservedFutureDetailsWithNullCfpEndShouldReturnDetailsDataWithStatusNa() {
         // prepare
         addContentResponse(
                 path = "/_conferences?ref=gh-pages" ,
@@ -252,7 +227,7 @@ class ConferencesListInterActorTests {
         )
 
         // act
-        interActor.observeConferences {
+        interActor.observeConferences(true) {
             response = it
             taskRunner.cancel()
         }
@@ -270,7 +245,7 @@ class ConferencesListInterActorTests {
     }
 
     @Test
-    fun whenObservedDetailsWithNullCfpStartShouldReturnDetailsDataWithStatusNa() {
+    fun whenObservedFutureDetailsWithNullCfpStartShouldReturnDetailsDataWithStatusNa() {
         // prepare
         addContentResponse(
                 path = "/_conferences?ref=gh-pages" ,
@@ -285,7 +260,7 @@ class ConferencesListInterActorTests {
         )
 
         // act
-        interActor.observeConferences {
+        interActor.observeConferences(true) {
             response = it
             taskRunner.cancel()
         }
@@ -303,7 +278,7 @@ class ConferencesListInterActorTests {
     }
 
     @Test
-    fun whenObservedDetailsWithCfpThatNotStartedShouldReturnDetailsDataWithStatusNotStarted() {
+    fun whenObservedFutureDetailsWithCfpThatNotStartedShouldReturnDetailsDataWithStatusNotStarted() {
         // prepare
         addContentResponse(
                 path = "/_conferences?ref=gh-pages" ,
@@ -318,7 +293,7 @@ class ConferencesListInterActorTests {
         )
 
         // act
-        interActor.observeConferences {
+        interActor.observeConferences(true) {
             response = it
             taskRunner.cancel()
         }
@@ -336,7 +311,7 @@ class ConferencesListInterActorTests {
     }
 
     @Test
-    fun whenObservedDetailsWithCfpThatInProgressShouldReturnDetailsDataWithStatusInProgress() {
+    fun whenObservedFutureDetailsWithCfpThatInProgressShouldReturnDetailsDataWithStatusInProgress() {
         // prepare
         addContentResponse(
                 path = "/_conferences?ref=gh-pages" ,
@@ -351,7 +326,7 @@ class ConferencesListInterActorTests {
         )
 
         // act
-        interActor.observeConferences {
+        interActor.observeConferences(true) {
             response = it
             taskRunner.cancel()
         }
@@ -369,7 +344,7 @@ class ConferencesListInterActorTests {
     }
 
     @Test
-    fun whenObservedDetailsWithCfpThatEndedShouldReturnDetailsDataWithStatusEnded() {
+    fun whenObservedFutureDetailsWithCfpThatEndedShouldReturnDetailsDataWithStatusEnded() {
         // prepare
         addContentResponse(
                 path = "/_conferences?ref=gh-pages" ,
@@ -384,7 +359,7 @@ class ConferencesListInterActorTests {
         )
 
         // act
-        interActor.observeConferences {
+        interActor.observeConferences(true) {
             response = it
             taskRunner.cancel()
         }
@@ -399,6 +374,60 @@ class ConferencesListInterActorTests {
                 )
         )
         assertEquals(expected, response)
+    }
+
+    @Test
+    fun whenObservePastConferencesShouldReturnPastConferences() {
+        // prepare
+        addContentResponse(
+                path = "/_conferences?ref=gh-pages" ,
+                contentList = listOf("path/to/url")
+        )
+        addConferenceDetailsResponse(
+                getDateByDaysOffset(baseDate, -22),
+                getDateByDaysOffset(baseDate, -21),
+                "/path/to/url"
+        )
+
+        // act
+        interActor.observeConferences(false) {
+            response = it
+            taskRunner.cancel()
+        }
+
+        // verify
+        val expected = listOf(
+                conferenceDetails.copy(
+                        id = "path/to/url",
+                        startDate = getDateByDaysOffset(baseDate, -22),
+                        endDate = getDateByDaysOffset(baseDate, -21),
+                        cfpStatus = CfpStatus.CFP_STATUS_NA
+                )
+        )
+        assertEquals(expected, response)
+    }
+
+    @Test
+    fun whenObservePastConferencesShouldNotReturnFutureConferences() {
+        // prepare
+        addContentResponse(
+                path = "/_conferences?ref=gh-pages" ,
+                contentList = listOf("path/to/url")
+        )
+        addConferenceDetailsResponse(
+                getDateByDaysOffset(baseDate, 20),
+                getDateByDaysOffset(baseDate, 21),
+                "/path/to/url"
+        )
+
+        // act
+        interActor.observeConferences(false) {
+            response = it
+            taskRunner.cancel()
+        }
+
+        // verify
+        assertEquals(emptyList<ConferenceDetailsData>(), response)
     }
 
     private fun getDateByDaysOffset(baseDate: Date, offsetInDays: Int): Date {
